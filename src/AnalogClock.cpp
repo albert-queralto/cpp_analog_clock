@@ -14,6 +14,7 @@ void AnalogClock::Draw() const
     DrawHourHand(hour, minute);
     DrawSecondHand(second);
     DrawCircleV(position, 15, DARK_GREY);
+    DrawDate();
 }
 
 void AnalogClock::Update()
@@ -24,6 +25,9 @@ void AnalogClock::Update()
     hour = now -> tm_hour % 12; // Convert to 12-hour format
     minute = now -> tm_min;
     second = now -> tm_sec;
+
+    std::snprintf(dateStr, sizeof(dateStr), "%04d-%02d-%02d", 
+        now->tm_year + 1900, now->tm_mon + 1, now->tm_mday);
 }
 
 void AnalogClock::DrawFace() const
@@ -97,4 +101,11 @@ void AnalogClock::DrawHourNumbers() const
 
         DrawText(buf, x - textWidth / 2, y - textHeight / 2, fontSize, DARK_GREY);
     }
+}
+
+void AnalogClock::DrawDate() const
+{
+    int fontSize = 20;
+    int textWidth = MeasureText(dateStr, fontSize);
+    DrawText(dateStr, position.x - textWidth / 2, position.y + size / 2, fontSize, DARK_GREY);
 }
