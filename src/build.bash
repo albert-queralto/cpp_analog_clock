@@ -1,0 +1,1 @@
+g++ main.cpp AnalogClock.cpp -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -o main
