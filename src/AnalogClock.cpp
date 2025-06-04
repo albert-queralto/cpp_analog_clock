@@ -1,5 +1,6 @@
 #include "AnalogClock.hpp"
 #include <cmath>
+#include <cstdio>
 
 Color DARK_GREY = {45, 45, 45, 255};
 Color LIGHT_GREY = {229, 229, 229, 255};
@@ -8,6 +9,7 @@ void AnalogClock::Draw() const
 {
     DrawFace();
     DrawHourMarks();
+    DrawHourNumbers();
     DrawMinuteHand(minute);
     DrawHourHand(hour, minute);
     DrawSecondHand(second);
@@ -73,4 +75,26 @@ void AnalogClock::DrawHand(float handWidth, float handLength, int angle, Color c
 {
     Rectangle handRect = Rectangle{position.x, position.y, handWidth, handLength};
     DrawRectanglePro(handRect, {handWidth / 2, handLength - offset}, angle, color);
+}
+
+void AnalogClock::DrawHourNumbers() const
+{
+    int fontSize = 32;
+    float radius = size - 65;
+
+    for (int i = 1; i <= 12; ++i) {
+        float angle = (i - 3) * (2 * PI / 12); // -3 to make 12 at the top
+        float x = position.x + radius * cosf(angle);
+        float y = position.y + radius * sinf(angle);
+
+        // Convert number to string
+        char buf[3];
+        snprintf(buf, sizeof(buf), "%d", i);
+
+        // Center the text
+        int textWidth = MeasureText(buf, fontSize);
+        int textHeight = fontSize;
+
+        DrawText(buf, x - textWidth / 2, y - textHeight / 2, fontSize, DARK_GREY);
+    }
 }

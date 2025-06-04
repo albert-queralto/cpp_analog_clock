@@ -15,6 +15,8 @@ class AnalogClock {
         void DrawHourHand(int hour, int minute) const;
         void DrawSecondHand(int second) const;
         void DrawHand(float handWidth, float handLength, int angle, Color color, int offset) const;
+        void DrawHourNumbers() const;
+
         int size;
         Vector2 position;
         int hour;
